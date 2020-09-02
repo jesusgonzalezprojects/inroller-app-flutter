@@ -1,1 +1,1 @@
-const String BASE_URL = 'http://localhost:9211/wp-json';
+const String BASE_URL = 'https://murmuring-refuge-87082.herokuapp.com';
