@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/localizations.dart';
+import 'package:flutter_scaffold/models/category_model.dart';
+import 'package:flutter_scaffold/services/category_service.dart';
 
 import 'drawer.dart';
 import 'slider.dart';
@@ -19,8 +21,10 @@ class _HomeState extends State<Home> {
     'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
+  final categoryService = new CategoryService();
   @override
   Widget build(BuildContext context) {
+    this.categoryService.fetchCategories();
     return Scaffold(
       drawer: Drawer(
         child: AppDrawer(),
@@ -39,7 +43,9 @@ class _HomeState extends State<Home> {
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(Icons.shopping_cart),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/cart');
+                    },
                   )
                 ],
                 // Allows the user to reveal the app bar if they begin scrolling
@@ -58,15 +64,102 @@ class _HomeState extends State<Home> {
                   (context, index) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 8.0, left: 8.0, right: 8.0),
+                            child: Text('Cortinas disponibles'.toUpperCase(),
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 8.0, top: 8.0, left: 8.0),
+                            child: RaisedButton(
+                                color: Theme.of(context).primaryColor,
+                                child: Text('Ver mas',
+                                    style: TextStyle(color: Colors.white)),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/categorise');
+                                }),
+                          )
+                        ],
+                      ),
+                      FutureBuilder(
+                        future: categoryService.fetchCategories(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            List<CategoriesList> categories = snapshot.data;
+                            return GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: categories.length,
+                              padding: EdgeInsets.only(
+                                  top: 8, left: 6, right: 6, bottom: 12),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemBuilder: (BuildContext context, int index) {
+                                CategoriesList category = categories[index];
+                                return Container(
+                                  child: Card(
+                                    clipBehavior: Clip.antiAlias,
+                                    child: InkWell(
+                                      onTap: () {
+                                        print('Card tapped.');
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height: (MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2) -
+                                                70,
+                                            width: double.infinity,
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.cover,
+                                              imageUrl: category.image,
+                                              placeholder: (context, url) => Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      new Icon(Icons.error),
+                                            ),
+                                          ),
+                                          ListTile(
+                                              title: Text(
+                                            '${category.category}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16),
+                                          ))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      ),
                       Padding(
                         padding:
                             EdgeInsets.only(top: 14.0, left: 8.0, right: 8.0),
-                        child: Text(
-                            AppLocalizations.of(context)
-                                .translate('NEW_ARRIVALS'),
+                        child: Text('Lo ultimo en inroller'.toUpperCase(),
                             style: TextStyle(
                                 color: Theme.of(context).accentColor,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700)),
                       ),
                       Container(
@@ -128,91 +221,6 @@ class _HomeState extends State<Home> {
                               },
                             );
                           }).toList(),
-                        ),
-                      ),
-                      Container(
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(top: 6.0, left: 8.0, right: 8.0),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/banner-1.png'),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 8.0, left: 8.0, right: 8.0),
-                            child: Text('Shop By Category',
-                                style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                right: 8.0, top: 8.0, left: 8.0),
-                            child: RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                child: Text('View All',
-                                    style: TextStyle(color: Colors.white)),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/categorise');
-                                }),
-                          )
-                        ],
-                      ),
-                      Container(
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
-                          padding: EdgeInsets.only(
-                              top: 8, left: 6, right: 6, bottom: 12),
-                          children: List.generate(4, (index) {
-                            return Container(
-                              child: Card(
-                                clipBehavior: Clip.antiAlias,
-                                child: InkWell(
-                                  onTap: () {
-                                    print('Card tapped.');
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height:
-                                            (MediaQuery.of(context).size.width /
-                                                    2) -
-                                                70,
-                                        width: double.infinity,
-                                        child: CachedNetworkImage(
-                                          fit: BoxFit.cover,
-                                          imageUrl: imgList[index],
-                                          placeholder: (context, url) => Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                          errorWidget: (context, url, error) =>
-                                              new Icon(Icons.error),
-                                        ),
-                                      ),
-                                      ListTile(
-                                          title: Text(
-                                        'Two Gold Rings',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
-                                      ))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
                         ),
                       ),
                       Container(

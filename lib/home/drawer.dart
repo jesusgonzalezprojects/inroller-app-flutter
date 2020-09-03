@@ -33,7 +33,7 @@ class _AppDrawerState extends State<AppDrawer> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.home, color: Theme.of(context).accentColor),
-                title: Text('Home'),
+                title: Text('Inicio'),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -41,8 +41,8 @@ class _AppDrawerState extends State<AppDrawer> {
               ListTile(
                 leading: Icon(Icons.shopping_basket,
                     color: Theme.of(context).accentColor),
-                title: Text('Shop'),
-                trailing: Text('New',
+                title: Text('Tienda'),
+                trailing: Text('',
                     style: TextStyle(color: Theme.of(context).primaryColor)),
                 onTap: () {
                   Navigator.pop(context);
@@ -52,34 +52,16 @@ class _AppDrawerState extends State<AppDrawer> {
               ListTile(
                 leading:
                     Icon(Icons.category, color: Theme.of(context).accentColor),
-                title: Text('Categorise'),
+                title: Text('Categorias'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/categorise');
                 },
               ),
               ListTile(
-                leading:
-                    Icon(Icons.favorite, color: Theme.of(context).accentColor),
-                title: Text('My Wishlist'),
-                trailing: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: new BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: Text('4',
-                      style: TextStyle(color: Colors.white, fontSize: 10.0)),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/wishlist');
-                },
-              ),
-              ListTile(
                 leading: Icon(Icons.shopping_cart,
                     color: Theme.of(context).accentColor),
-                title: Text('My Cart'),
+                title: Text('Mi carrito'),
                 trailing: Container(
                   padding: const EdgeInsets.all(10.0),
                   decoration: new BoxDecoration(
@@ -94,19 +76,19 @@ class _AppDrawerState extends State<AppDrawer> {
                   Navigator.pushNamed(context, '/cart');
                 },
               ),
-              ListTile(
+              /*ListTile(
                 leading: Icon(Icons.lock, color: Theme.of(context).accentColor),
                 title: Text('Login'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/auth');
                 },
-              ),
+              ),*/
               Divider(),
               ListTile(
                 leading:
                     Icon(Icons.settings, color: Theme.of(context).accentColor),
-                title: Text('Settings'),
+                title: Text('Mi cuenta'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/settings');
@@ -115,7 +97,7 @@ class _AppDrawerState extends State<AppDrawer> {
               ListTile(
                 leading: Icon(Icons.exit_to_app,
                     color: Theme.of(context).accentColor),
-                title: Text('Logout'),
+                title: Text('Salir'),
                 onTap: () async {
                   await auth.logout();
                 },
