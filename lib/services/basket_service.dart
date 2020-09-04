@@ -84,4 +84,32 @@ class BasketService {
         return responseResult;
     }
 
+    Future<Map<String , dynamic>>addProduct({Map data}) async {
+
+        Map<String, String> requestHeaders = {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+        };
+
+        Response response = await http.post(BASE_URL+'/product_in_basket',body:data,headers: requestHeaders);
+
+        print(response.body);
+
+        Map result = json.decode(response.body);
+
+        Map<String,dynamic> responseResult =  {
+            "message":"","ok":false
+        };
+
+        responseResult['message'] = result['msg'];
+
+        if (response.statusCode == 201) {
+            responseResult['ok'] = true;
+        } else {
+            responseResult['ok'] = false;
+        }
+
+        return responseResult;
+    }
+
 }

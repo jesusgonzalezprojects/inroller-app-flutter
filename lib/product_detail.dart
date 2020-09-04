@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/models/product_model.dart';
+import 'package:flutter_scaffold/product_add_basket.dart';
 import 'package:flutter_scaffold/services/product_service.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -37,7 +38,6 @@ class _ProductsState extends State<Products> {
 
     @override
     Widget build(BuildContext context) {
-        final args = ModalRoute.of(context).settings.arguments;
         return Scaffold(
             appBar: AppBar(
                 title: Text('Detalle de la tela'),
@@ -78,14 +78,14 @@ class _ProductsState extends State<Products> {
                                             ),
                                         ),
                                         Padding(
-                                            padding: const EdgeInsets.only(bottom: 25),
+                                            padding: const EdgeInsets.only(bottom: 10),
                                             child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: <Widget>[
                                                     Row(
                                                         children: <Widget>[
                                                             Padding(
-                                                                padding: const EdgeInsets.only(right: 10.0),
+                                                                padding: const EdgeInsets.only(right: 0.0),
                                                                 child: Text(
                                                                     'Precio: \$ ${product.productPrice} x Mtr²',
                                                                     style: TextStyle(
@@ -95,12 +95,14 @@ class _ProductsState extends State<Products> {
                                                                     ),
                                                                 ),
                                                             ),
+                                                            
                                                         ],
                                                     ),
                                                     
                                                 ],
                                             ),
                                         ),
+                                       
                                         Column(
                                             children: <Widget>[
                                                 Container(
@@ -149,7 +151,9 @@ class _ProductsState extends State<Products> {
                                                             errorWidget: (context, url, error) => new Icon(Icons.error),
                                                         ),
                                                     )
-                                                )
+                                                ),
+                                                SizedBox(height: 4.0,),
+                                                
                                             ],
                                         ),
                                     ],
@@ -158,6 +162,20 @@ class _ProductsState extends State<Products> {
                         ],
                     ),
                 ) : Center(child: CircularProgressIndicator()),
+            ),
+            bottomNavigationBar: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: ButtonTheme(
+                    buttonColor: Theme.of(context).primaryColor,
+                    minWidth: double.infinity,
+                    height: 40.0,
+                    child: RaisedButton(
+                    onPressed: () {
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=>ProductAddToBasket(productId: product.id,)));
+                    },
+                    child:Text("Agregar al carrito".toUpperCase(),style: TextStyle(color: Colors.white, fontSize: 16),)
+                    ),
+                ),
             ),
         );
     }
