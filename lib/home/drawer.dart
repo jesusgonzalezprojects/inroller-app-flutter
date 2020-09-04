@@ -41,7 +41,7 @@ class _AppDrawerState extends State<AppDrawer> {
               ListTile(
                 leading: Icon(Icons.shopping_basket,
                     color: Theme.of(context).accentColor),
-                title: Text('Tienda'),
+                title: Text('Telas'),
                 trailing: Text('',
                     style: TextStyle(color: Theme.of(context).primaryColor)),
                 onTap: () {
@@ -52,7 +52,7 @@ class _AppDrawerState extends State<AppDrawer> {
               ListTile(
                 leading:
                     Icon(Icons.category, color: Theme.of(context).accentColor),
-                title: Text('Categorias'),
+                title: Text('Cortinas'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/categorise');

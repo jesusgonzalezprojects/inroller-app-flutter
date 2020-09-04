@@ -27,8 +27,8 @@ void main() {
       locale: locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Colors.deepOrange[500],
-          accentColor: Colors.lightBlue[900],
+          primaryColor: Color(0xffF07539),
+          accentColor: Color(0xff00ada7),
           fontFamily: locale.languageCode == 'ar' ? 'Dubai' : 'Lato'),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
@@ -39,7 +39,7 @@ void main() {
         '/wishlist': (BuildContext context) => WishList(),
         '/cart': (BuildContext context) => CartList(),
         '/settings': (BuildContext context) => Settings(),
-        '/products': (BuildContext context) => Products()
+        '/products': (BuildContext context) => Products(productId: 1,)
       },
     ),
   ));
