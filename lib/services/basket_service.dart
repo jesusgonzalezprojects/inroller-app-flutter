@@ -84,21 +84,24 @@ class BasketService {
         return responseResult;
     }
 
-    Future<Map<String , dynamic>>addProduct({Map data}) async {
+    Future<Map>addProduct({Map data}) async {
 
-        Map<String, String> requestHeaders = {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
+        Map headers = {
+            "Content-Type":"application/json",
+            "Accept":"application/json",
         };
 
-        Response response = await http.post(BASE_URL+'/product_in_basket',body:data,headers: requestHeaders);
+        Response response = await http.post(BASE_URL+'/product_in_basket',headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json",
+        },body:json.encode(data));
 
-        print(response.body);
+      
 
         Map result = json.decode(response.body);
 
         Map<String,dynamic> responseResult =  {
-            "message":"","ok":false
+            "message":"","ok":false,'instructions':""
         };
 
         responseResult['message'] = result['msg'];
@@ -107,6 +110,7 @@ class BasketService {
             responseResult['ok'] = true;
         } else {
             responseResult['ok'] = false;
+            responseResult['instructions'] = result['instructions'];
         }
 
         return responseResult;

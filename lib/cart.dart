@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/models/basket_model.dart';
 import 'package:flutter_scaffold/services/basket_service.dart';
+import 'package:flutter_scaffold/services/order_service.dart';
 import 'package:flutter_scaffold/widgets/product_basket_widget.dart';
 
 
@@ -15,6 +16,7 @@ class _CartListState extends State<CartList> {
 
 
     final basketService = new BasketService();
+    final orderService  = new OrderService();
     final _formKey = GlobalKey<FormState>();
 
     bool initialScreen = false;
@@ -31,6 +33,15 @@ class _CartListState extends State<CartList> {
         setState(() {
             this.initialScreen = true;
         });
+    }
+
+    void endSale() async {
+        Map response = await this.orderService.generateOrder();
+        
+        if (response['ok'])
+            Navigator.pushReplacementNamed(context, '/cart');
+        //Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['message']), duration: Duration(seconds: 2)));
+        //Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['mail']), duration: Duration(seconds: 2)));
     }
 
     @override
@@ -76,7 +87,9 @@ class _CartListState extends State<CartList> {
                 minWidth: double.infinity,
                 height: 40.0,
                 child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      this.endSale();
+                    },
                     child: Text(
                         "TERMINAR COMPRA",
                         style: TextStyle(color: Colors.white, fontSize: 16),
@@ -169,7 +182,7 @@ class _DiscountBasketState extends State<DiscountBasket>{
 
         Map response = await basketService.removeCoupon();
 
-        await Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['message']), duration: Duration(seconds: 2)));
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['message']), duration: Duration(seconds: 2)));
 
         setState(() {
             loading = false;

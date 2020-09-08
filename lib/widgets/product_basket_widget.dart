@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/models/basket_model.dart';
+import 'package:flutter_scaffold/product_add_basket.dart';
 import 'package:flutter_scaffold/services/basket_service.dart';
+import 'package:intl/intl.dart';
+
+var format = new NumberFormat("###.0#", "en_US");
 
 class ProductBasketWidget extends StatefulWidget {
 
@@ -79,7 +83,7 @@ class _ProductBasketWidgetState extends State<ProductBasketWidget>{
     InkWell _productItem({Product product}) {
         return InkWell(
             onTap: () {
-                print('Card tapped.');
+                Navigator.push(context,MaterialPageRoute(builder: (context)=>ProductAddToBasket(productId: product.productId,)));
             },
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,13 +102,15 @@ class _ProductBasketWidgetState extends State<ProductBasketWidget>{
                                     child: _productImage(productImage: product.productImage),
                                 ),
                             ),
-                            title: _productItemName(productName: product.productName),
+
+                            title: _productItemName(productName: product.productName,amount:product.amount.toString()),
                             subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
+                                    Text('Persiana: '+product.categoryName),
                                     Row(
                                         children: <Widget>[
-                                            _productPriceAndAmount(price: product.productPrice,amount: product.amount.toString())
+                                            _productPriceAndAmount(price: product.productPrice,category: product.categoryName)
                                         ],
                                     )
                                 ],
@@ -127,22 +133,22 @@ class _ProductBasketWidgetState extends State<ProductBasketWidget>{
         );
     }
 
-    Text _productItemName({String productName}) {
+    Text _productItemName({String productName, String amount}) {
         return Text(
-            productName,
+            '$productName ($amount)',
             style: TextStyle(
                 fontSize: 14
             ),
         );
     }
     
-    Padding _productPriceAndAmount({String price , String amount}) {
+    Padding _productPriceAndAmount({String price, String category}) {
         return Padding(
             padding: const EdgeInsets.only(top: 2.0, bottom: 1),
-            child: Text('Precio:  \$ $price | Cant: $amount', 
+            child: Text('Precio:  \$ ${NumberFormat.currency(name:'',decimalDigits: 2).format(double.parse(price))}', 
                 style: TextStyle(
                     color: Theme.of(context).accentColor,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 13.0
                 )
             ),
         );

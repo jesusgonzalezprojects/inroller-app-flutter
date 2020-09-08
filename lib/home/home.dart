@@ -70,7 +70,7 @@ class _HomeState extends State<Home> {
                                         Padding(
                                             padding: EdgeInsets.only(
                                                 top: 8.0, left: 8.0, right: 8.0),
-                                            child: Text('Cortinas disponibles'.toUpperCase(),
+                                            child: Text('Persianas disponibles'.toUpperCase(),
                                                 style: TextStyle(
                                                     color: Theme.of(context).accentColor,
                                                     fontSize: 16,

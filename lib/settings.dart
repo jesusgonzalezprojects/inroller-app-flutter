@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:flutter_scaffold/account/address_page.dart';
+import 'package:flutter_scaffold/account/coupons_page.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -71,111 +71,112 @@ class _SettingsState extends State<Settings> {
                         ),
                         Expanded(
                             child: ListView(
-                            shrinkWrap: true,
-                            children: <Widget>[
-                                Card(
-                                child: ListTile(
-                                    leading: Icon(
-                                    Icons.edit,
-                                    color: Theme.of(context).accentColor,
-                                    size: 28,
+                                shrinkWrap: true,
+                                children: <Widget>[
+                                    Card(
+                                        child: ListTile(
+                                            leading: Icon(
+                                            Icons.edit,
+                                            color: Theme.of(context).accentColor,
+                                            size: 28,
+                                            ),
+                                            title: Text('Mis datos',
+                                                style:
+                                                    TextStyle(color: Colors.black, fontSize: 17)),
+                                            trailing: Icon(Icons.keyboard_arrow_right,
+                                                color: Theme.of(context).accentColor),
+                                        ),
                                     ),
-                                    title: Text('Mis datos',
-                                        style:
-                                            TextStyle(color: Colors.black, fontSize: 17)),
-                                    trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Theme.of(context).accentColor),
-                                ),
-                                ),
-                                Card(
-                                child: ListTile(
-                                    leading: Icon(
-                                    Icons.notifications,
-                                    color: Theme.of(context).accentColor,
-                                    size: 28,
+                                    Card(
+                                        child: ListTile(
+                                            leading: Icon(
+                                                Icons.check,
+                                                color: Theme.of(context).accentColor,
+                                                size: 28,
+                                            ),
+                                            title: Text('Ordenes',style:TextStyle(color: Colors.black, fontSize: 17)),
+                                            trailing: Icon(Icons.keyboard_arrow_right,color: Theme.of(context).accentColor),
+                                        ),
                                     ),
-                                    title: Text('Ordenes',
-                                        style:
-                                            TextStyle(color: Colors.black, fontSize: 17)),
-                                    trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Theme.of(context).accentColor),
-                                ),
-                                ),
-                                Card(
-                                child: ListTile(
-                                    leading: Icon(
-                                    Icons.card_giftcard,
-                                    color: Theme.of(context).accentColor,
-                                    size: 28,
+                                    InkWell(
+                                        onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CouponPage()));
+                                        },
+                                        child: Card(
+                                            child: ListTile(
+                                                leading: Icon(
+                                                    Icons.card_giftcard,
+                                                    color: Theme.of(context).accentColor,
+                                                    size: 28,
+                                                ),
+                                                title: Text('Cupones',
+                                                    style:TextStyle(color: Colors.black, fontSize: 17)
+                                                ),
+                                                trailing: Icon(Icons.keyboard_arrow_right,
+                                                    color: Theme.of(context).accentColor
+                                                ),
+                                            ),
+                                        ),
                                     ),
-                                    title: Text('Cupones',
-                                        style:
-                                            TextStyle(color: Colors.black, fontSize: 17)),
-                                    trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Theme.of(context).accentColor),
-                                ),
-                                ),
-                                Card(
-                                child: ListTile(
-                                    leading: Icon(
-                                    Icons.credit_card,
-                                    color: Theme.of(context).accentColor,
-                                    size: 28,
+                                    InkWell(
+                                        onTap: () {
+                                            Navigator.pushNamed(context, '/wallet');
+                                        },
+                                        child: Card(
+                                            child: ListTile(
+                                                leading: Icon(
+                                                    Icons.credit_card,
+                                                    color: Theme.of(context).accentColor,
+                                                    size: 28,
+                                                ),
+                                                title: Text('Monedero',style:TextStyle(color: Colors.black, fontSize: 17)),
+                                                trailing: Icon(Icons.keyboard_arrow_right, color: Theme.of(context).accentColor), 
+                                            ),
+                                        ),
                                     ),
-                                    title: Text('Monedero',
-                                        style:
-                                            TextStyle(color: Colors.black, fontSize: 17)),
-                                    trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Theme.of(context).accentColor),
-                                ),
-                                ),
-                                Card(
-                                child: ListTile(
-                                    leading: Icon(
-                                    Icons.info,
-                                    color: Theme.of(context).accentColor,
-                                    size: 28,
+                                    InkWell(
+                                        onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>AddressPage()));
+                                        },
+                                        child: Card(
+                                            child: ListTile(
+                                                leading: Icon(
+                                                    Icons.place,
+                                                    color: Theme.of(context).accentColor,
+                                                    size: 28,
+                                                ),
+                                                title: Text('Direcciónes',style:TextStyle(color: Colors.black, fontSize: 17)),
+                                                trailing: Icon(Icons.keyboard_arrow_right,color: Theme.of(context).accentColor),
+                                            ),
+                                        ),
                                     ),
-                                    title: Text('Acerca de',
-                                        style:
-                                            TextStyle(color: Colors.black, fontSize: 17)),
-                                    trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Theme.of(context).accentColor),
-                                ),
-                                ),
-                                Card(
-                                child: ListTile(
-                                    leading: Icon(
-                                    Icons.vpn_key,
-                                    color: Theme.of(context).accentColor,
-                                    size: 28,
+                                    Card(
+                                        child: ListTile(
+                                            leading: Icon(
+                                                Icons.vpn_key,
+                                                color: Theme.of(context).accentColor,
+                                                size: 28,
+                                            ),
+                                            title: Text('Actualizar contraseña',style:TextStyle(color: Colors.black, fontSize: 17)),
+                                            trailing: Icon(Icons.keyboard_arrow_right,color: Theme.of(context).accentColor),
+                                        ),
                                     ),
-                                    title: Text('Actualizar contraseña',
-                                        style:
-                                            TextStyle(color: Colors.black, fontSize: 17)),
-                                    trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Theme.of(context).accentColor),
-                                ),
-                                ),
-                                Card(
-                                child: ListTile(
-                                    leading: Icon(
-                                    Icons.lock,
-                                    color: Theme.of(context).accentColor,
-                                    size: 28,
+                                    Card(
+                                        child: ListTile(
+                                            leading: Icon(
+                                                Icons.lock,
+                                                color: Theme.of(context).accentColor,
+                                                size: 28,
+                                            ),
+                                            title: Text('Cerrar sesión',style:TextStyle(color: Colors.black, fontSize: 17)),
+                                            trailing: Icon(Icons.keyboard_arrow_right,color: Theme.of(context).accentColor),
+                                        ),
                                     ),
-                                    title: Text('Cerrar sesión',
-                                        style:
-                                            TextStyle(color: Colors.black, fontSize: 17)),
-                                    trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Theme.of(context).accentColor),
-                                ),
-                                ),
-                            ],
+                                ],
                             ),
                         ),
-                ],
-            ),
+                    ],
+                ),
             )
         );
     }

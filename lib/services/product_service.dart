@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 
 class ProductService {
 
-    Future<List<ProductsList>>fetchProductsLimit( {int limit} ) async {
+    Future<List<ProductsList>>fetchProductsLimit( {int limit , String query} ) async {
         
-        String endpoint = '/products?';
+        String endpoint = '/products?$query';
         if (limit > 0 ) {
             endpoint = endpoint + 'limit=$limit';
         }
@@ -30,6 +30,7 @@ class ProductService {
         Response response = await http.get(BASE_URL+'/products/$productId');
 
         Map product = json.decode(response.body);
+        print(product);
 
         if (response.statusCode == 200) {
             return ProductsList.fromJson(product);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/shop/shop.dart';
 
 class ShopSearch extends StatefulWidget {
   @override
@@ -36,41 +37,11 @@ class _ShopSearchState extends State<ShopSearch> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: new EdgeInsetsDirectional.only(bottom: 15.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: dropdownValue,
-                      icon: Icon(Icons.keyboard_arrow_down),
-                      style: TextStyle(
-                          color: Colors.black
-                      ),
-                      underline: Container(
-                        height: 1,
-                        color: Colors.grey[300],
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          dropdownValue = newValue;
-                        });
-                      },
-                      items: <String>['One', 'Two', 'Free', 'Four']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      })
-                          .toList(),
-                    ),
-                  ),
-                ),
+                
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: Text(
-                      'Select Price Range', style: TextStyle(fontWeight: FontWeight.bold)
+                      'Selecciona un rango de precios', style: TextStyle(fontWeight: FontWeight.bold)
                   ),
                 ),
                 RangeSlider(
@@ -80,17 +51,17 @@ class _ShopSearchState extends State<ShopSearch> {
                     activeColor: Theme.of(context).primaryColor,
                     inactiveColor: Colors.grey[300],
                     onChanged: (RangeValues values) {
-                      setState(() {
-                        if (values.end - values.start >= 20) {
-                          _values = values;
-                        } else {
-                          if (_values.start == values.start) {
-                            _values = RangeValues(_values.start, _values.start + 20);
-                          } else {
-                            _values = RangeValues(_values.end - 20, _values.end);
-                          }
-                        }
-                      });
+                        setState(() {
+                            if (values.end - values.start >= 20) {
+                            _values = values;
+                            } else {
+                            if (_values.start == values.start) {
+                                _values = RangeValues(_values.start, _values.start + 20);
+                            } else {
+                                _values = RangeValues(_values.end - 20, _values.end);
+                            }
+                            }
+                        });
                     }
                 ),
               ],
@@ -112,7 +83,7 @@ class _ShopSearchState extends State<ShopSearch> {
                             child: Text('\$ ${_values.start.round()}', style: TextStyle(color: Colors.white)),
                           )
                       ),
-                      Text('to', style: TextStyle(fontSize: 16, color: Colors.black),),
+                      Text('a', style: TextStyle(fontSize: 16, color: Colors.black),),
                       Container(
                           width: 120,
                           height: 45.0,
@@ -140,9 +111,14 @@ class _ShopSearchState extends State<ShopSearch> {
                         minWidth: double.infinity,
                         height: 40.0,
                         child: RaisedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            double minPrice = _values.start;
+                            double maxPrice = _values.end;
+                            bool toFilter = true;
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Shop(minPrice: minPrice, maxPrice: maxPrice, toFilter: toFilter)));
+                          },
                           child: Text(
-                            "Apply Filters",
+                            "Aplicar filtro",
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                         ),

@@ -2,16 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter_scaffold/config.dart';
 import 'package:flutter_scaffold/models/user.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
-    final storage = FlutterSecureStorage();
+    //final storage = FlutterSecureStorage();
     // Create storage
     Future<Map> login(UserCredential userCredential) async {
-        final response = await http.post('$BASE_URL/jwt-auth/v1/token', body: {
-            'username': userCredential.usernameOrEmail,
+        final response = await http.post('$BASE_URL/login', body: {
+            'email': userCredential.usernameOrEmail,
             'password': userCredential.password
         });
 
@@ -19,9 +18,9 @@ class AuthService {
             setUser(response.body);
             return jsonDecode(response.body);
         }else {
-            if (response.statusCode == 403) {
+            if (response.statusCode == 401) {
                 Fluttertoast.showToast(
-                    msg: "Invalid Credentials",
+                    msg: "Credenciales invalidas",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.CENTER,
                     timeInSecForIos: 1,
@@ -64,16 +63,16 @@ class AuthService {
     }
 
     setUser(String value) async {
-        await storage.write(key: 'user', value: value);
+        //await storage.write(key: 'user', value: value);
     }
 
     getUser() async {
-        String user = await storage.read(key: 'user');
+        /*String user = await storage.read(key: 'user');
         if (user != null) {
             return jsonDecode(user);
-        }
+        }*/
     }
     logout() async {
-        await storage.delete(key: 'user');
+        //await storage.delete(key: 'user');
     }
 }

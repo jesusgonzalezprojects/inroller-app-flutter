@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_scaffold/models/product_model.dart';
 import 'package:flutter_scaffold/services/product_service.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import '../product_detail.dart';
 import 'search.dart';
 
 class Shop extends StatefulWidget {
-  @override
-  _ShopState createState() => _ShopState();
+
+    final double minPrice,maxPrice;
+    final bool toFilter;
+
+    const Shop({@required this.minPrice, @required this.maxPrice, @required this.toFilter});
+    @override
+    _ShopState createState() => _ShopState();
+
 }
 
 class _ShopState extends State<Shop> {
@@ -28,7 +33,14 @@ class _ShopState extends State<Shop> {
     }
 
     void getProducts() async {
-        productsList = await this.productService.fetchProductsLimit(limit:-1);
+        
+        if (!widget.toFilter) {
+            productsList = await this.productService.fetchProductsLimit(limit:-1,query:'');
+        }else{
+            String query = 'min_price=${widget.minPrice}&max_price=${widget.maxPrice}';
+            productsList = await this.productService.fetchProductsLimit(limit:-1,query:query);
+        }
+       
         setState(() {
             loading = false;
         });
@@ -37,13 +49,14 @@ class _ShopState extends State<Shop> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+           key: scaffoldKey,
             appBar: AppBar(
                 actions: <Widget>[
                     IconButton(
                     icon: Icon(Icons.search, color: Colors.white),
                     onPressed: () {
-                        scaffoldKey.currentState
-                            .showBottomSheet((context) => ShopSearch());
+                         scaffoldKey.currentState
+                    .showBottomSheet((context) => ShopSearch());
                     },
                     )
                 ],

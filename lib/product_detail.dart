@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/models/product_model.dart';
 import 'package:flutter_scaffold/product_add_basket.dart';
 import 'package:flutter_scaffold/services/product_service.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class Products extends StatefulWidget {
 
@@ -30,7 +28,6 @@ class _ProductsState extends State<Products> {
 
     void getProduct() async {
         product = await this.productService.fetchProduct(widget.productId);
-        print(product);
         setState(() {
             loading = false;
         });
@@ -166,14 +163,14 @@ class _ProductsState extends State<Products> {
             bottomNavigationBar: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: ButtonTheme(
-                    buttonColor: Theme.of(context).primaryColor,
-                    minWidth: double.infinity,
-                    height: 40.0,
-                    child: RaisedButton(
-                    onPressed: () {
-                        Navigator.push(context,MaterialPageRoute(builder: (context)=>ProductAddToBasket(productId: product.id,)));
-                    },
-                    child:Text("Agregar al carrito".toUpperCase(),style: TextStyle(color: Colors.white, fontSize: 16),)
+                      buttonColor: Theme.of(context).primaryColor,
+                      minWidth: double.infinity,
+                      height: 40.0,
+                      child: RaisedButton(
+                      onPressed: () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context)=>ProductAddToBasket(productId: product.id,)));
+                      },
+                      child:Text("Agregar al carrito".toUpperCase(),style: TextStyle(color: Colors.white, fontSize: 16),)
                     ),
                 ),
             ),

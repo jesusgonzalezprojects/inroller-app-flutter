@@ -28,7 +28,7 @@ class _SignInState extends State<SignIn> {
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please Enter Email or Username';
+                          return 'Por favor ingresa tu correo electronico';
                         }
                         return null;
                       },
@@ -38,15 +38,15 @@ class _SignInState extends State<SignIn> {
                         });
                       },
                       decoration: InputDecoration(
-                        hintText: 'Enter Username Or Email',
-                        labelText: 'Email',
+                        hintText: 'Ingresa tu correo o numero de telefono',
+                        labelText: 'Correo/Telefono',
                       ),
                     ),
                   ),
                   TextFormField(
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please Enter Password';
+                        return 'Por favor ingresa tu contraseña';
                       }
                       return null;
                     },
@@ -56,8 +56,8 @@ class _SignInState extends State<SignIn> {
                       });
                     },
                     decoration: InputDecoration(
-                      hintText: 'Enter Password',
-                      labelText: 'Password',
+                      hintText: 'Ingresa tu contraseña',
+                      labelText: 'Contraseña',
                     ),
                     obscureText: true,
                   ),
@@ -74,14 +74,17 @@ class _SignInState extends State<SignIn> {
                             textColor: Colors.white,
                             child: auth.loading && auth.loadingType == 'login' ? CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                            ) : Text('Sign In'),
-                            onPressed: () {
+                            ) : Text('Acceder'),
+                            onPressed: () async {
                               // Validate form
                               if (_formKey.currentState.validate() && !auth.loading) {
                                 // Update values
                                 _formKey.currentState.save();
                                 // Hit Api
-                                auth.login(userCredential);
+                                Map response = await auth.login(userCredential);
+                                if (response['login']) {
+                                  Navigator.pushReplacementNamed(context, '/');
+                                }
                               }
                             },
                           );

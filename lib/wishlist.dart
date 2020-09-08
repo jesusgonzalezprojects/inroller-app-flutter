@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class WishList extends StatefulWidget {
   @override
@@ -142,15 +141,7 @@ class _WishlistState extends State<WishList> {
                           ),
                           Row(
                             children: <Widget>[
-                              SmoothStarRating(
-                                  allowHalfRating: false,
-                                  starCount: 5,
-                                  rating: item['rating'],
-                                  size: 16.0,
-                                  color: Colors.amber,
-                                  borderColor: Colors.amber,
-                                  spacing:0.0
-                              ),
+                             
                               Padding(
                                 padding: const EdgeInsets.only(left: 6.0),
                                 child: Text('(4)', style: TextStyle(

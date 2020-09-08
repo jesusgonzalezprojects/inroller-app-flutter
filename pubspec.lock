@@ -102,13 +102,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_secure_storage:
+  flutter_share:
     dependency: "direct main"
     description:
-      name: flutter_secure_storage
+      name: flutter_share
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1+1"
+    version: "1.0.2+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -196,13 +196,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  smooth_star_rating:
-    dependency: "direct main"
-    description:
-      name: smooth_star_rating
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   source_span:
     dependency: transitive
     description:

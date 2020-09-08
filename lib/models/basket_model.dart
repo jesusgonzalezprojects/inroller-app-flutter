@@ -109,6 +109,9 @@ class Product {
         this.amount,
         this.width,
         this.subtotal,
+        this.categoryName,
+        this.categoryImage,
+        this.categoryId,
     });
 
     int productId;
@@ -118,6 +121,9 @@ class Product {
     int amount;
     String width;
     String subtotal;
+    String categoryName;
+    String categoryImage;
+    int categoryId;
 
     factory Product.fromJson(Map<String, dynamic> json) => Product(
         productId: json["product_id"],
@@ -127,6 +133,9 @@ class Product {
         amount: json["amount"],
         width: json["width"],
         subtotal: json["subtotal"],
+        categoryName: json["category_name"],
+        categoryImage: json["category_image"],
+        categoryId: json["category_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -137,5 +146,8 @@ class Product {
         "amount": amount,
         "width": width,
         "subtotal": subtotal,
+        "category_name": categoryName,
+        "category_image": categoryImage,
+        "category_id": categoryId,
     };
 }

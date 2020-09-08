@@ -13,7 +13,7 @@ class _AppDrawerState extends State<AppDrawer> {
     AuthBlock auth = Provider.of<AuthBlock>(context);
     return Column(
       children: <Widget>[
-        if (auth.isLoggedIn)
+        /*if (auth.isLoggedIn)
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -26,7 +26,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             accountEmail: Text(auth.user['user_email']),
             accountName: Text(auth.user['user_display_name']),
-          ),
+          ),*/
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -52,7 +52,7 @@ class _AppDrawerState extends State<AppDrawer> {
               ListTile(
                 leading:
                     Icon(Icons.category, color: Theme.of(context).accentColor),
-                title: Text('Cortinas'),
+                title: Text('Persianas'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/categorise');
@@ -76,14 +76,6 @@ class _AppDrawerState extends State<AppDrawer> {
                   Navigator.pushNamed(context, '/cart');
                 },
               ),
-              /*ListTile(
-                leading: Icon(Icons.lock, color: Theme.of(context).accentColor),
-                title: Text('Login'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/auth');
-                },
-              ),*/
               Divider(),
               ListTile(
                 leading:
@@ -99,7 +91,8 @@ class _AppDrawerState extends State<AppDrawer> {
                     color: Theme.of(context).accentColor),
                 title: Text('Salir'),
                 onTap: () async {
-                  await auth.logout();
+                  //await auth.logout();
+                  Navigator.pushReplacementNamed(context, '/auth');
                 },
               )
             ],

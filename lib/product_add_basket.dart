@@ -21,8 +21,10 @@ class _ProductAddToBasketState extends State<ProductAddToBasket> {
     final productService = new ProductService();
     final _formKey = GlobalKey<FormState>();
     String width,height,amount;
+    String messageError;
     ProductsList product;
     bool loading = true;
+    bool showError= false;
 
     @override
     void initState() {
@@ -35,6 +37,44 @@ class _ProductAddToBasketState extends State<ProductAddToBasket> {
         setState(() {
             loading = false;
         });
+    }
+
+    void addToBasket(BuildContext context) async {
+         if (_formKey.currentState.validate()) {
+            
+            _formKey.currentState.save();
+
+            setState(() {
+                loading = true;
+            });
+
+            Map data = {
+                'product_id':product.id,
+                'height':double.parse(height),
+                'width':double.parse(this.width),
+                'amount':int.parse(this.amount != null ? this.amount : 1),
+                'user_id':1
+            };
+
+            Map response = await basketService.addProduct(data:data);
+
+            //Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['message']), duration: Duration(seconds: 2)));
+
+            setState(() {
+                loading = false;
+            });
+
+            if (response['ok'])
+                Navigator.pushReplacementNamed(context, '/cart');
+            else{
+                setState(() {
+                    messageError = response['instructions'];
+                    showError = true;
+                });
+            }
+
+        }
+
     }
 
     @override
@@ -93,13 +133,23 @@ class _ProductAddToBasketState extends State<ProductAddToBasket> {
                                     ),
                                 ),
                                 SizedBox(height: 10.0,),
-                                Padding(
+                                showError ? Padding(
                                     padding: const EdgeInsets.only(right: 0.0),
                                     child: Text(
-                                        'La medida maxima en largo y ancho deberá ser de: ${product.productWidth} CM ',
+                                        '$messageError , Ancho: ${product.productWidth} CM , Precio: \$ ${product.productPrice}',
                                         style: TextStyle(
                                             color: Colors.red,
                                             fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                        ),
+                                    ),
+                                ) : Padding(
+                                    padding: const EdgeInsets.only(right: 0.0),
+                                    child: Text(
+                                        'Ancho: ${product.productWidth} CM | Precio: \$ ${product.productPrice} MXN',
+                                        style: TextStyle(
+                                            
+                                            fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                         ),
                                     ),
@@ -214,7 +264,7 @@ class _ProductAddToBasketState extends State<ProductAddToBasket> {
                 height: 40.0,
                 child: RaisedButton(
                 onPressed: () {
-                    this.addToBasket();
+                    this.addToBasket(context);
                 },
                 child: this.loading == false 
                     ? Text("Agregar".toUpperCase(),style: TextStyle(color: Colors.white, fontSize: 16),) 
@@ -224,44 +274,5 @@ class _ProductAddToBasketState extends State<ProductAddToBasket> {
         );
     }
 
-    void addToBasket() async {
-         if (_formKey.currentState.validate()) {
-            
-            _formKey.currentState.save();
-
-            setState(() {
-                loading = true;
-            });
-
-            Map data = {
-                'product_id':product.id,
-                'height':this.height,
-                'width':this.width,
-                'amount':this.amount
-            };
-
-            Map response = await basketService.addProduct(
-                data:data
-            );
-
-
-            print(response);
-            //
-
-            //print(response);
-
-            /*Map response = await basketService.addCoupon(cupon_code:this.couponCode);
-
-            await Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['message']), duration: Duration(seconds: 2)));
-
-            setState(() {
-                loading = false;
-            });
-
-            if (response['ok'])
-                Navigator.pushReplacementNamed(context, '/cart');*/
-
-        }
-
-    }
+    
 }
