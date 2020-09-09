@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_scaffold/localizations.dart';
 import 'package:flutter_scaffold/models/category_model.dart';
 import 'package:flutter_scaffold/models/product_model.dart';
 import 'package:flutter_scaffold/services/category_service.dart';
@@ -34,27 +33,39 @@ class _HomeState extends State<Home> {
         });
     }
     final categoryService = new CategoryService();
+
+    AppBar _appBar () {
+        return AppBar(
+            backgroundColor: Colors.white,
+            title: Image.asset('assets/images/logo_full.png',
+                width: 250.0, height: 55.0
+            ),
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.shopping_cart, color: Colors.black),
+                  onPressed: () {
+                      Navigator.pushNamed(context, '/cart');
+                  },
+                  tooltip: "Carrito de compras",
+              ),
+            ],
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            appBar: _appBar(),
             drawer: Drawer(
                 child: AppDrawer(),
             ),
-            body: SafeArea(
-                top: false,
-                left: false,
-                right: false,
-                child: CustomScrollView(
+            body: CustomScrollView(
                     slivers: <Widget>[
                     SliverAppBar(
-                        actions: <Widget>[
-                            IconButton(
-                                icon: Icon(Icons.shopping_cart),
-                                onPressed: () {
-                                Navigator.pushNamed(context, '/cart');
-                                },
-                            )
-                        ],
+                       actions: <Widget>[
+                         
+                      ],
+                        
                         backgroundColor: Colors.white,
                         flexibleSpace: HomeSlider(),
                         expandedHeight: 300,
@@ -238,7 +249,6 @@ class _HomeState extends State<Home> {
                         ),
                     )
                 ]
-            ),
             ),
         );
     }

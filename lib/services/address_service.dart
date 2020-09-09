@@ -4,13 +4,17 @@ import 'package:flutter_scaffold/config.dart';
 import 'package:flutter_scaffold/models/address_model.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressService  {
 
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
     Future<List<Address>> fetchAddress() async  {
         
-        Response response = await http.get(BASE_URL+'/address?user_id=1');
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+        Response response = await http.get(BASE_URL+'/address?user_id=$user_id');
 
         if (response.statusCode == 200) {
             return addressResponseFromJson(response.body).address;

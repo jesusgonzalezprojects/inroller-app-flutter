@@ -13,8 +13,12 @@ class Auth extends StatelessWidget {
     Widget build(BuildContext context) {
         final AuthBlock authBlock = Provider.of<AuthBlock>(context);
         return Scaffold(
-        appBar: AppBar(
-            title: Text(authBlock.currentIndex == 0 ? 'Acceder' : 'Crear una cuenta'),
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            title: Image.asset('assets/images/logo_full.png',
+                width: 250.0, height: 55.0
+            ),
         ),
         bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[

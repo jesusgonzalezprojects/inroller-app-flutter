@@ -16,8 +16,6 @@ class ProductService {
 
         Response response = await http.get(BASE_URL+endpoint);
 
-        print(response.body);
-
         if (response.statusCode == 200) {
             return productResponseFromJson(response.body).productsList;
         }
@@ -27,10 +25,10 @@ class ProductService {
     }
 
     Future<ProductsList> fetchProduct(int productId) async{
+
         Response response = await http.get(BASE_URL+'/products/$productId');
 
         Map product = json.decode(response.body);
-        print(product);
 
         if (response.statusCode == 200) {
             return ProductsList.fromJson(product);

@@ -2,11 +2,18 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_scaffold/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderService {
-    
+
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
     Future<Map<String,dynamic>> generateOrder() async {
-        Response response = await http.post(BASE_URL + '/orders?user_id=1');
+        
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+
+        Response response = await http.post(BASE_URL + '/orders?user_id=$user_id');
 
         Map result = json.decode(response.body);
         

@@ -4,7 +4,7 @@ import 'package:flutter_scaffold/services/auth_service.dart';
 
 class AuthBlock extends ChangeNotifier {
     AuthBlock() {
-        setUser();
+        //setUser();
     }
     AuthService _authService = AuthService();
     // Index
@@ -40,7 +40,7 @@ class AuthBlock extends ChangeNotifier {
     Map _user = {};
     Map get user => _user;
     setUser() async {
-        _user = await _authService.getUser();
+        _user = await _authService.getToken();
         isLoggedIn = _user == null ? false : true;
         notifyListeners();
     }
@@ -49,7 +49,7 @@ class AuthBlock extends ChangeNotifier {
         loading = true;
         loadingType = 'login';
         Map response = await _authService.login(userCredential);
-        setUser();
+        //setUser();
         loading = false;
         return response;
     }

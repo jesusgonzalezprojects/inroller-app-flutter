@@ -53,7 +53,6 @@ class _ProductAddToBasketState extends State<ProductAddToBasket> {
                 'height':double.parse(height),
                 'width':double.parse(this.width),
                 'amount':int.parse(this.amount != null ? this.amount : 1),
-                'user_id':1
             };
 
             Map response = await basketService.addProduct(data:data);

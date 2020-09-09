@@ -60,8 +60,6 @@ class _AddressAddPageState extends State<AddressAddPage>{
         if (result['ok']) {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddressPage()));
         }
-
-       
     }
 
     @override

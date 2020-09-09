@@ -4,12 +4,18 @@ import 'package:flutter_scaffold/config.dart';
 import 'package:flutter_scaffold/models/basket_model.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BasketService {
 
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
     Future<Basket> fetchBasket() async {
 
-        Response response = await http.get(BASE_URL+'/basket?user_id=1');
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+        
+        Response response = await http.get(BASE_URL+'/basket?user_id=$user_id');
 
         if (response.statusCode == 200) {
             return basketResponseFromJson(response.body).basket;
@@ -19,8 +25,11 @@ class BasketService {
     }   
 
     Future<Map<String,dynamic>> deleteProduct(int productId) async {
+
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
         
-        Response response = await http.delete(BASE_URL+'/product_in_basket/$productId?user_id=1');
+        Response response = await http.delete(BASE_URL+'/product_in_basket/$productId?user_id=$user_id');
         
         Map result = json.decode(response.body);
         
@@ -41,7 +50,10 @@ class BasketService {
 
     Future<Map<String , dynamic>> addCoupon({String cupon_code}) async {
 
-        Response response = await http.put(BASE_URL+'/basket?user_id=1',body: {
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+
+        Response response = await http.put(BASE_URL+'/basket?user_id=$user_id',body: {
             'cupon_code':cupon_code
         });
 
@@ -65,7 +77,10 @@ class BasketService {
 
     Future<Map<String , dynamic>> removeCoupon() async {
 
-        Response response = await http.delete(BASE_URL+'/basket/remove-coupon?user_id=1');
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+
+        Response response = await http.delete(BASE_URL+'/basket/remove-coupon?user_id=$user_id');
 
         Map result = json.decode(response.body);
 
@@ -91,7 +106,10 @@ class BasketService {
             "Accept":"application/json",
         };
 
-        Response response = await http.post(BASE_URL+'/product_in_basket',headers:{
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+
+        Response response = await http.post(BASE_URL+'/product_in_basket?user_id=$user_id',headers:{
           "Content-Type":"application/json",
           "Accept":"application/json",
         },body:json.encode(data));

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/account/address_page.dart';
 import 'package:flutter_scaffold/account/coupons_page.dart';
+import 'package:flutter_scaffold/models/user_model.dart';
+import 'package:flutter_scaffold/services/user_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -8,13 +11,51 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+
+    final userService = new UserService();
+    
+    ProfileUser user;
+    bool loading = true;
+    @override
+    void initState() {
+        this.getProfile();
+    }
+
+    void getProfile() async {
+        this.user = await this.userService.profile();
+        print(this.user.name);
+        setState(() {
+            loading = false;
+        });
+    }
+
+    void subscribeOrUnsuscribe() async {
+            
+        Map result = await this.userService.subscribeOrUnSubscribe();
+
+        Fluttertoast.showToast(
+            msg: '${result['message']}',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            fontSize: 16.0
+        );
+
+        if (result['ok']) {
+            Navigator.pushReplacementNamed(context, '/settings');
+        }
+
+
+    }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
                 title: Text('Mi cuenta'),
             ),
-            body: SafeArea(
+            body: loading == false
+                ? SafeArea(
                 child: Column(
                     children: <Widget>[
                         Container(
@@ -24,9 +65,7 @@ class _SettingsState extends State<Settings> {
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     fit: BoxFit.fill,
-                                    image: NetworkImage(
-                                        "https://st2.depositphotos.com/1518767/6092/i/450/depositphotos_60926763-stock-photo-handyman-cleaning-blinds-with-a.jpg"
-                                    ),
+                                    image: AssetImage('assets/images/6.jpg')
                                 ),
                             ),
                             child: Container(
@@ -61,9 +100,38 @@ class _SettingsState extends State<Settings> {
                                         padding: const EdgeInsets.only(
                                             top: 15, bottom: 15, left: 15, right: 15
                                         ),
-                                        child: Text(
-                                            'Jesús Gonzalez',
-                                            style: TextStyle(color: Colors.white, fontSize: 16),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                                '${this.user.name} ${user.lastName} ',
+                                                style: TextStyle(color: Colors.white, fontSize: 16),
+                                            ),
+                                            user.subscription != null 
+                                                ? InkWell(
+                                                    onTap: () {
+                                                        this.subscribeOrUnsuscribe();
+                                                    },
+                                                  child: Text(
+                                                      'Miembro inroller',
+                                                      style: TextStyle(
+                                                          color: Colors.white
+                                                      ),
+                                                  ),
+                                                )
+                                                :  InkWell(
+                                                    onTap: (){
+                                                        this.subscribeOrUnsuscribe();
+                                                    },
+                                                    child: Text(
+                                                        'Suscribirse',
+                                                        style: TextStyle(
+                                                            color: Colors.white
+                                                        ),
+                                                    ),
+                                                )
+                                          ],
+                                         
                                         ),
                                     ),
                                 )
@@ -177,7 +245,7 @@ class _SettingsState extends State<Settings> {
                         ),
                     ],
                 ),
-            )
+            ) : Center(child: CircularProgressIndicator())
         );
     }
 }
