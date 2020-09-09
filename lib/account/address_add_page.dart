@@ -40,13 +40,54 @@ class _AddressAddPageState extends State<AddressAddPage>{
         });
     }
 
+    void addAddress() async {
+
+         if (_formKey.currentState.validate()) {
+            
+            _formKey.currentState.save();
+
+            Map data = {
+                "codigo_postal":codigoPostal,
+                "estado":estado,
+                "municipio":municipio,
+                "colonia":colonia,
+                "calle":calle,
+                "n_exterior":nExterior,
+                "n_interior":nInterior,
+                "calle_1":calle1,
+                "calle_2":calle2,
+                "referencias":referencia,
+                "telefono":telefono,
+            };  
+
+
+            Map result = await this.addressService.addAddress(data: data);
+
+            Fluttertoast.showToast(
+                msg: "${result['message']}",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIos: 1,
+                fontSize: 16.0
+            );
+
+            if (result['ok']) {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AddressPage()));
+            }
+
+        }
+        
+
+
+    }
+
     void deleteAddres() async {
         setState(() {
             loading = true;
         });
         Map result = await this.addressService.deleteAddress(addressId:widget.addressId);
 
-        await Fluttertoast.showToast(
+        Fluttertoast.showToast(
             msg: "${result['message']}",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
@@ -85,6 +126,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
     Widget _form() {
         return Center(
             child: Form(
+                key: _formKey,
                 child: SingleChildScrollView(
                     child: Padding(
                         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
@@ -102,9 +144,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                             return null;
                                         },
                                         onSaved: (value) {
-                                            setState(() {
-                                                codigoPostal = value;
-                                            });
+                                           telefono = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa tu numero de telefono',
@@ -123,9 +163,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                             return null;
                                         },
                                         onSaved: (value) {
-                                            setState(() {
-                                                codigoPostal = value;
-                                            });
+                                           codigoPostal = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa el codigo postal',
@@ -144,9 +182,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                             return null;
                                         },
                                         onSaved: (value) {
-                                            setState(() {
-                                                estado = value;
-                                            });
+                                             estado = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa el estado',
@@ -165,9 +201,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                             return null;
                                         },
                                         onSaved: (value) {
-                                            setState(() {
-                                                municipio = value;
-                                            });
+                                            municipio = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa el municipio',
@@ -186,9 +220,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                             return null;
                                         },
                                         onSaved: (value) {
-                                            setState(() {
-                                                colonia = value;
-                                            });
+                                            colonia = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa la colonia',
@@ -207,9 +239,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                             return null;
                                         },
                                         onSaved: (value) {
-                                            setState(() {
-                                                calle = value;
-                                            });
+                                             calle = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa la calle principal',
@@ -223,9 +253,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                         initialValue: widget.edit ? '${address.nInterior}' : '',
 
                                         onSaved: (value) {
-                                            setState(() {
-                                                nInterior = value;
-                                            });
+                                             nInterior = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa la calle principal',
@@ -244,9 +272,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                             return null;
                                         },
                                         onSaved: (value) {
-                                            setState(() {
-                                                nExterior = value;
-                                            });
+                                            this.nExterior = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa el numero exterior',
@@ -265,9 +291,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                         initialValue: widget.edit ? '${address.calle1}' : '',
                                         
                                         onSaved: (value) {
-                                            setState(() {
-                                                calle1 = value;
-                                            });
+                                            calle1 = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa la calle 1',
@@ -281,9 +305,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                         initialValue: widget.edit ? '${address.calle2}' : '',
                                         
                                         onSaved: (value) {
-                                            setState(() {
-                                                calle2 = value;
-                                            });
+                                            calle2 = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Ingresa la calle 2',
@@ -302,9 +324,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                         initialValue: widget.edit ? '${address.referencias}' : '',
                                         
                                         onSaved: (value) {
-                                            setState(() {
-                                                referencia = value;
-                                            });
+                                           referencia = value;
                                         },
                                         decoration: InputDecoration(
                                             hintText: 'Referencias',
@@ -321,7 +341,7 @@ class _AddressAddPageState extends State<AddressAddPage>{
                                         height: 40.0,
                                         child: RaisedButton(
                                             onPressed: () {
-                                                
+                                                this.addAddress();
                                             },
                                             child: Text(
                                                 "Guardar",

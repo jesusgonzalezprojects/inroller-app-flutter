@@ -35,6 +35,37 @@ class AddressService  {
 
         return new Address();
     }
+
+    Future<Map> addAddress({Map data}) async {
+
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+
+        print(data);
+
+        Response response = await http.post(BASE_URL+'/address?user_id=$user_id',headers: {
+            "Content-Type":"application/json",
+            "Accept":"application/json",
+        },body:json.encode(data));
+
+         Map result = json.decode(response.body);
+
+         print(result);
+
+        Map<String,dynamic> responseResult =  {
+            "message":"","ok":false
+        };
+
+        responseResult['message'] = result['msg'];
+
+        if (response.statusCode == 201) {
+            responseResult['ok'] = true;
+        } else {
+            responseResult['ok'] = false;
+        }
+
+        return responseResult;
+    }
     
     Future<Map>deleteAddress({int addressId}) async {
         

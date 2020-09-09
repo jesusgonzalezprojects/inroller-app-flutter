@@ -44,7 +44,7 @@ class _SettingsState extends State<Settings> {
         if (result['ok']) {
             Navigator.pushReplacementNamed(context, '/settings');
         }
-
+        
 
     }
 
@@ -108,16 +108,12 @@ class _SettingsState extends State<Settings> {
                                                 style: TextStyle(color: Colors.white, fontSize: 16),
                                             ),
                                             user.subscription != null 
-                                                ? InkWell(
-                                                    onTap: () {
-                                                        this.subscribeOrUnsuscribe();
-                                                    },
-                                                  child: Text(
+                                                ?Text(
                                                       'Miembro inroller',
                                                       style: TextStyle(
                                                           color: Colors.white
                                                       ),
-                                                  ),
+                                                   
                                                 )
                                                 :  InkWell(
                                                     onTap: (){
