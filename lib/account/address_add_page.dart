@@ -76,9 +76,6 @@ class _AddressAddPageState extends State<AddressAddPage>{
             }
 
         }
-        
-
-
     }
 
     void deleteAddres() async {

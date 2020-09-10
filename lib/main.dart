@@ -5,6 +5,8 @@ import 'package:flutter_scaffold/auth/auth.dart';
 import 'package:flutter_scaffold/blocks/auth_block.dart';
 import 'package:flutter_scaffold/cart.dart';
 import 'package:flutter_scaffold/categorise.dart';
+import 'package:flutter_scaffold/checkout/checkout.dart';
+import 'package:flutter_scaffold/checkout/shipping_address.dart';
 import 'package:flutter_scaffold/home/home.dart';
 import 'package:flutter_scaffold/localizations.dart';
 import 'package:flutter_scaffold/product_detail.dart';
@@ -43,7 +45,9 @@ void main() {
         '/settings': (BuildContext context) => Settings(),
         '/products': (BuildContext context) => Products(productId: 1,),
         '/wallet':(BuildContext context) => WalletPage(),
-        '/coupons':(BuildContext context) => CouponPage()
+        '/coupons':(BuildContext context) => CouponPage(),
+        '/shipping_address':(BuildContext context) => ShippingAddressPage(),
+        '/checkout':(BuildContext context) => CheckoutPage(),
       },
     ),
   ));

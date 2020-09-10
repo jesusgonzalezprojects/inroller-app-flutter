@@ -62,7 +62,7 @@ class UserService  {
            "message":"","ok":false,'user':{}
         }; 
 
-        responseResult['message'] = result['message'];
+        responseResult['message'] = result['msg'];
 
         if (response.statusCode == 200) {
             responseResult['ok'] = true;

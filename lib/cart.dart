@@ -81,17 +81,17 @@ class _CartListState extends State<CartList> {
 
     Padding _buttonFinishSale()  {
         return Padding(
-            padding: const EdgeInsets.only(left: 40.0, right: 40, top: 10, bottom: 10),
+            padding: const EdgeInsets.only(left: 32.0, right: 32, top: 10, bottom: 10),
             child: ButtonTheme(
                 buttonColor: Theme.of(context).primaryColor,
                 minWidth: double.infinity,
                 height: 40.0,
                 child: RaisedButton(
                     onPressed: () {
-                      this.endSale();
+                      Navigator.pushNamed(context, '/shipping_address');
                     },
                     child: Text(
-                        "TERMINAR COMPRA",
+                        "Proceder a pagar",
                         style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                 ),
@@ -354,7 +354,7 @@ class _AddDiscountBasketState extends State<AddDiscountBasket> {
                     this.addDiscount();
                 },
                 child: this.loading == false 
-                    ? Text("Agregar cupon".toUpperCase(),style: TextStyle(color: Colors.white, fontSize: 16),) 
+                    ? Text("Agregar cupon",style: TextStyle(color: Colors.white, fontSize: 16),) 
                     : Center(child: CircularProgressIndicator()),
                 ),
             ),

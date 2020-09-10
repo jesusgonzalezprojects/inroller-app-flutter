@@ -134,4 +134,32 @@ class BasketService {
         return responseResult;
     }
 
+    Future<Map> setAddressToBasket({int addressId}) async {
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+        
+        String endpoint = '/basket-address-select?user_id=$user_id&address_id=$addressId';
+
+        Response response = await http.post(BASE_URL+endpoint,headers:{
+          "Content-Type":"application/json",
+          "Accept":"application/json",
+        });
+
+         Map result = json.decode(response.body);
+
+        Map<String,dynamic> responseResult =  {
+            "message":"","ok":false,'instructions':""
+        };
+
+        responseResult['message'] = result['msg'];
+
+        if (response.statusCode == 201) {
+            responseResult['ok'] = true;
+        } else {
+            responseResult['ok'] = false;
+        }
+
+        return responseResult;
+    }
+
 }

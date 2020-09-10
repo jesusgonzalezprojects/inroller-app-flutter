@@ -75,10 +75,15 @@ class _SettingsState extends State<Settings> {
                                     borderRadius: new BorderRadius.circular(60),
                                 ),
                                 padding: const EdgeInsets.all(10.0),
-                                child: Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.white,
-                                    size: 32,
+                                child: InkWell(
+                                    onTap: () {
+                                        Navigator.pushNamed(context, '/cart');
+                                    },
+                                    child: Icon(
+                                        Icons.shopping_cart,
+                                        color: Colors.white,
+                                        size: 32
+                                    ),
                                 ),
                             ),
                         ),
@@ -104,7 +109,7 @@ class _SettingsState extends State<Settings> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                                '${this.user.name} ${user.lastName} ',
+                                                '${this.user.name} ',
                                                 style: TextStyle(color: Colors.white, fontSize: 16),
                                             ),
                                             user.subscription != null 
