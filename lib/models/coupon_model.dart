@@ -43,9 +43,9 @@ class Coupon {
 
     factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
         code: json["code"],
-        discount: json["discount"],
-        subscription: json["subscription"],
-        status: json["status"],
+        discount: json["discount"].toString(),
+        subscription: json["subscription"] == 1 ? true : false,
+        status: json["status"] == 1 ? true : false,
     );
 
     Map<String, dynamic> toJson() => {

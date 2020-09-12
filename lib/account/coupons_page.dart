@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/models/coupon_model.dart';
 import 'package:flutter_scaffold/services/coupon_service.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

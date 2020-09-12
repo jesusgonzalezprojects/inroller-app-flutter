@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_scaffold/services/user_service.dart';
+
+import 'models/user_model.dart';
+import 'models/wallet_model.dart';
 //import 'package:share/share.dart';
 
 class WalletPage extends StatefulWidget {
@@ -16,6 +20,13 @@ class _WalletPageState extends State<WalletPage> {
     Color _borderContainer;
     bool colorSwitched = false;
     var logoImage;
+
+    final userService = new UserService();
+    Wallet wallet;
+    ProfileUser user;
+    bool loading = true;
+
+    
 
     void changeTheme() async {
         if (colorSwitched) {
@@ -59,16 +70,26 @@ class _WalletPageState extends State<WalletPage> {
         }
     }
 
-  @override
-  void initState() {
-    changeTheme();
-    super.initState();
-  }
+    @override
+    void initState() {
+        changeTheme();
+        this.getWallet();
+        super.initState();
+    }
+
+    void getWallet() async {
+        this.wallet = await this.userService.wallet();
+        this.user = await this.userService.profile();
+        setState(() {
+            loading = false;
+        });
+    }
 
     @override
     Widget build(BuildContext context) {
         return Scaffold(
-            body: SafeArea(
+            body: loading == false 
+                ? SafeArea(
                 child: GestureDetector(
                     onLongPress: () {
                         if (colorSwitched) {
@@ -104,7 +125,7 @@ class _WalletPageState extends State<WalletPage> {
                             Column(
                                 children: <Widget>[
                                     Text('Hola ',style: TextStyle(fontSize: 18, color: Colors.black),),
-                                    Text('Jesús Gonzalez',style: TextStyle(
+                                    Text('${user.name}',style: TextStyle(
                                         fontSize: 24,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),)
@@ -144,7 +165,7 @@ class _WalletPageState extends State<WalletPage> {
                                                 this.shared(context);
                                                 },
                                                 child:Text(
-                                                '700',
+                                                '${wallet.amountHumans}',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     color: _textColor,
@@ -198,7 +219,7 @@ class _WalletPageState extends State<WalletPage> {
                     ),
                 ),
                 ),
-            ),
+            ) : Center(child: CircularProgressIndicator(),),
         );
     }
 

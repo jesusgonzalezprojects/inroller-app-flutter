@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_scaffold/blocks/auth_block.dart';
 import 'package:flutter_scaffold/models/user.dart';
 import 'package:flutter_scaffold/services/auth_service.dart';
-import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   @override

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_scaffold/blocks/auth_block.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -8,9 +7,9 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   @override
   Widget build(BuildContext context) {
-    AuthBlock auth = Provider.of<AuthBlock>(context);
     return Column(
       children: <Widget>[
         /*if (auth.isLoggedIn)
@@ -91,6 +90,8 @@ class _AppDrawerState extends State<AppDrawer> {
                     color: Theme.of(context).accentColor),
                 title: Text('Salir'),
                 onTap: () async {
+                  final SharedPreferences prefs = await _prefs;
+                  prefs.remove('user_id');
                   //await auth.logout();
                   Navigator.pushReplacementNamed(context, '/auth');
                 },

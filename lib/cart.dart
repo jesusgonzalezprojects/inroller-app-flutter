@@ -17,7 +17,7 @@ class _CartListState extends State<CartList> {
 
     final basketService = new BasketService();
     final orderService  = new OrderService();
-    final _formKey = GlobalKey<FormState>();
+   
 
     bool initialScreen = false;
     Basket basket;
@@ -55,11 +55,13 @@ class _CartListState extends State<CartList> {
                     
                     _totalProductsCount(),
 
-                    ProductBasketWidget(basket: basket),
+                    ProductBasketWidget(basket: basket,isCart: true,),
 
                     BasketInformationPay(pay: basket.pay,hasDiscount: basket.hasDiscount),
                     
-                    _buttonFinishSale()
+                    basket.products.length > 0 
+                      ? _buttonFinishSale() 
+                      : Text('')
                     
                 ],
             ) : Center(child: CircularProgressIndicator(),)
@@ -280,7 +282,7 @@ class _AddDiscountBasketState extends State<AddDiscountBasket> {
 
             Map response = await basketService.addCoupon(cupon_code:this.couponCode);
 
-            await Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['message']), duration: Duration(seconds: 2)));
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text(response['message']), duration: Duration(seconds: 2)));
 
             setState(() {
                 loading = false;

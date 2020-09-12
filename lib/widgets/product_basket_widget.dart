@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/models/basket_model.dart';
 import 'package:flutter_scaffold/product_add_basket.dart';
 import 'package:flutter_scaffold/services/basket_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 var format = new NumberFormat("###.0#", "en_US");
@@ -10,8 +11,10 @@ var format = new NumberFormat("###.0#", "en_US");
 class ProductBasketWidget extends StatefulWidget {
 
     final Basket basket;
+
+    final bool isCart;
     
-    ProductBasketWidget({@required this.basket});
+    ProductBasketWidget({@required this.basket, @required this.isCart});
 
     @override
     _ProductBasketWidgetState createState() => _ProductBasketWidgetState();
@@ -36,10 +39,23 @@ class _ProductBasketWidgetState extends State<ProductBasketWidget>{
 
     Widget _productContent({Product product}) {
         return Dismissible(
+            
             key: Key(UniqueKey().toString()),
             onDismissed: (direction) {
-                this.direcctionDimis(direction: direction , product: product);
+                if (widget.isCart){
+                  this.direcctionDimis(direction: direction , product: product);
+                }else{
+                     Fluttertoast.showToast(
+                        msg: 'Ya no puedes eliminar el producto',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIos: 1,
+                        fontSize: 16.0
+                    );
+                }
+                  
             },
+            direction: widget.isCart ? DismissDirection.horizontal : null,
             background: Container(
                 decoration: BoxDecoration(color: Colors.red),
                 padding: EdgeInsets.all(5.0),
@@ -71,6 +87,7 @@ class _ProductBasketWidgetState extends State<ProductBasketWidget>{
     }
 
     void direcctionDimis({direction, Product product}) async {
+
         Map result = await this.basketService.deleteProduct(product.productId);
 
         Scaffold.of(context).showSnackBar(SnackBar(content: Text(result['message']), duration: Duration(seconds: 2)));

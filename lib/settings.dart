@@ -23,7 +23,6 @@ class _SettingsState extends State<Settings> {
 
     void getProfile() async {
         this.user = await this.userService.profile();
-        print(this.user.name);
         setState(() {
             loading = false;
         });
@@ -156,15 +155,20 @@ class _SettingsState extends State<Settings> {
                                                 color: Theme.of(context).accentColor),
                                         ),
                                     ),
-                                    Card(
-                                        child: ListTile(
-                                            leading: Icon(
-                                                Icons.check,
-                                                color: Theme.of(context).accentColor,
-                                                size: 28,
+                                    InkWell(
+                                        onTap: (){
+                                            Navigator.pushNamed(context,'/orders');
+                                        },
+                                        child: Card(
+                                            child: ListTile(
+                                                leading: Icon(
+                                                    Icons.check,
+                                                    color: Theme.of(context).accentColor,
+                                                    size: 28,
+                                                ),
+                                                title: Text('Ordenes',style:TextStyle(color: Colors.black, fontSize: 17)),
+                                                trailing: Icon(Icons.keyboard_arrow_right,color: Theme.of(context).accentColor),
                                             ),
-                                            title: Text('Ordenes',style:TextStyle(color: Colors.black, fontSize: 17)),
-                                            trailing: Icon(Icons.keyboard_arrow_right,color: Theme.of(context).accentColor),
                                         ),
                                     ),
                                     InkWell(

@@ -58,6 +58,12 @@ class _ShippingAddressPageState extends State<ShippingAddressPage>{
             body: loading == false
                 ? _addressList()
                 : Center(child: CircularProgressIndicator()),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AddressAddPage(edit: false,)));
+                },
+                child: Icon(Icons.add_location),
+            ),
         );
     }
 

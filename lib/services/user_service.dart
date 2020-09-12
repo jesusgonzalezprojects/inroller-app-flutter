@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_scaffold/config.dart';
 import 'package:flutter_scaffold/models/user.dart';
 import 'package:flutter_scaffold/models/user_model.dart';
+import 'package:flutter_scaffold/models/wallet_model.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -121,6 +122,24 @@ class UserService  {
         }
 
         return responseResult;
+    }
+
+    Future<Wallet> wallet () async {
+
+        final SharedPreferences prefs = await _prefs;
+        int user_id = prefs.getInt('user_id');
+
+        Response response = await http.get('$BASE_URL/wallet?user_id=$user_id',headers: {
+            "Content-Type":"application/json",
+            "Accept":"application/json",
+        });
+        print(response.body);
+        if (response.statusCode == 200){
+            return walletResponseFromJson(response.body).wallet;
+        }
+
+        return new Wallet();
+
     }
 
 }

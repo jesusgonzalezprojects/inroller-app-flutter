@@ -16,6 +16,8 @@ class ProductService {
 
         Response response = await http.get(BASE_URL+endpoint);
 
+        print(response.body);
+
         if (response.statusCode == 200) {
             return productResponseFromJson(response.body).productsList;
         }
@@ -35,6 +37,17 @@ class ProductService {
         }
 
         return new ProductsList();
+    }
+
+    Future<List<ProductsList>> fetchProductByCategory({int category_id}) async{
+
+        Response response = await http.get(BASE_URL+'/products?category_id=$category_id');
+
+        if (response.statusCode == 200) {
+            return productResponseFromJson(response.body).productsList;
+        }
+
+        return [];
     }
 
 }

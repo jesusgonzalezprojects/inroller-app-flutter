@@ -48,7 +48,7 @@ class ProfileUser {
         name: json["name"],
         lastName: json["last_name"],
         email: json["email"],
-        status: json["status"],
+        status: json["status"] == 1 ? true : false,
         emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
         subscription: json["subscription"],
     );

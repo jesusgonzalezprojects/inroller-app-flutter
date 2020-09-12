@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scaffold/models/category_model.dart';
 import 'package:flutter_scaffold/models/product_model.dart';
+import 'package:flutter_scaffold/products_category.dart';
 import 'package:flutter_scaffold/services/category_service.dart';
 import 'package:flutter_scaffold/services/product_service.dart';
 
@@ -122,7 +123,7 @@ class _HomeState extends State<Home> {
                                                     clipBehavior: Clip.antiAlias,
                                                     child: InkWell(
                                                     onTap: () {
-                                                        print('Card tapped.');
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductCategoryPage(maxPrice: 0,minPrice: 0,category: category,toFilter: false,)));
                                                     },
                                                     child: Column(
                                                         crossAxisAlignment:

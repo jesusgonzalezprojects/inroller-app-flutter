@@ -9,6 +9,7 @@ import 'package:flutter_scaffold/checkout/checkout.dart';
 import 'package:flutter_scaffold/checkout/shipping_address.dart';
 import 'package:flutter_scaffold/home/home.dart';
 import 'package:flutter_scaffold/localizations.dart';
+import 'package:flutter_scaffold/orders/order_list_page.dart';
 import 'package:flutter_scaffold/product_detail.dart';
 import 'package:flutter_scaffold/settings.dart';
 import 'package:flutter_scaffold/shop/shop.dart';
@@ -22,6 +23,7 @@ void main() {
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider<AuthBlock>.value(value: AuthBlock())],
     child: MaterialApp(
+      title: 'Inroller',
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -34,7 +36,7 @@ void main() {
           primaryColor: Color(0xffF07539),
           accentColor: Color(0xff00ada7),
           fontFamily: locale.languageCode == 'ar' ? 'Dubai' : 'Lato'),
-      initialRoute: '/',
+      initialRoute: '/auth',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
         '/auth': (BuildContext context) => Auth(),
@@ -48,6 +50,7 @@ void main() {
         '/coupons':(BuildContext context) => CouponPage(),
         '/shipping_address':(BuildContext context) => ShippingAddressPage(),
         '/checkout':(BuildContext context) => CheckoutPage(),
+        '/orders':(BuildContext context)=>OrderListPage()
       },
     ),
   ));

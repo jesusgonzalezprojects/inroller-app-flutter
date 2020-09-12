@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_scaffold/models/category_model.dart';
+import 'package:flutter_scaffold/products_category.dart';
 import 'package:flutter_scaffold/services/category_service.dart';
 
 class Categorise extends StatefulWidget {
@@ -38,7 +39,7 @@ class _CategoriseState extends State<Categorise> {
                                                 clipBehavior: Clip.antiAlias,
                                                 child: InkWell(
                                                     onTap: () {
-                                                        print('Card tapped.');
+                                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductCategoryPage(maxPrice: 0,minPrice: 0,category: category,toFilter: false,)));
                                                     },
                                                     child: Column(
                                                         crossAxisAlignment: CrossAxisAlignment.start,
